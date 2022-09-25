@@ -8,3 +8,10 @@ export const FooterStyled = styled.footer({
   backgroundColor: colors.accent02,
   color: colors.white,
 });
+
+export const FooterContainer = styled.footer({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center'
+});
+

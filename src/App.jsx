@@ -5,7 +5,7 @@ import '@app/theme/styles';
 import { Products } from '@app/features';
 import { Header, Main, Footer } from '@app/layouts';
 
-import { Title } from '@components';
+import { Title, Text, Link } from '@components';
 
 export const App = () => {
   return (
@@ -23,9 +23,11 @@ export const App = () => {
           &copy; {new Date().getFullYear()} by Victor Kasap
         </Title>
 
-        <a href="https://github.com/kasapvictor/react-shop-example-local-useImmer" target="_blank" rel="noreferrer">
-          GitHub
-        </a>
+        <Link href="https://github.com/kasapvictor/react-shop-example-context" target="_blank">
+          <Text color="white" type="span">
+            GitHub
+          </Text>
+        </Link>
       </Footer>
       <ToastContainer position="bottom-right" />
     </>

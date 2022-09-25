@@ -2,12 +2,14 @@ import PropTypes from 'prop-types';
 
 import { Container } from '@app/layouts';
 
-import { FooterStyled } from './styled';
+import { FooterContainer, FooterStyled } from './styled';
 
 export const Footer = ({ children }) => {
   return (
     <FooterStyled>
-      <Container>{children}</Container>
+      <Container>
+        <FooterContainer>{children}</FooterContainer>
+      </Container>
     </FooterStyled>
   );
 };
