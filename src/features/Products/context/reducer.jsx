@@ -12,87 +12,83 @@ const {
   DECREMENT_PRODUCT_CART,
 } = DISPATCH_NAME;
 
-export const reducer = (state, action) => {
+export const reducer = produce((draft, action) => {
   const { type, payload } = action;
 
   switch (type) {
     case SET_CART_MODAL: {
-      return produce(state, (draft) => {
-        draft.isCartModal = payload;
-      });
+      draft.isCartModal = payload;
+
+      return;
     }
 
     case FETCHED_PRODUCTS: {
       const { fetchedProducts } = action.payload;
 
-      return produce(state, (draft) => {
-        draft.products.list = fetchedProducts;
-      });
+      draft.products.list = fetchedProducts;
+
+      return;
     }
 
     case SET_FETCHED_STATUS: {
       const { fetchingStatus, error } = action.payload;
 
-      return produce(state, (draft) => {
-        draft.fetching.status = fetchingStatus;
-        draft.fetching.error = error;
-      });
+      draft.fetching.status = fetchingStatus;
+      draft.fetching.error = error;
+
+      return;
     }
 
     case ADD_PRODUCT_TO_CART: {
       const { productId } = action.payload;
+      const orderedProduct = draft.products.list.find((product) => product.id === productId);
 
-      return produce(state, (draft) => {
-        const orderedProduct = draft.products.list.find((product) => product.id === productId);
-
-        draft.products.orderedList.push(orderedProduct);
-        draft.products.cartOrderInfo.push({
-          count: 1,
-          id: orderedProduct.id,
-          name: orderedProduct.name,
-          cost: orderedProduct.price,
-          total: orderedProduct.price,
-        });
+      draft.products.orderedList.push(orderedProduct);
+      draft.products.cartOrderInfo.push({
+        count: 1,
+        id: orderedProduct.id,
+        name: orderedProduct.name,
+        cost: orderedProduct.price,
+        total: orderedProduct.price,
       });
+
+      return;
     }
 
     case REMOVE_PRODUCT_FROM_CART: {
       const { productId } = action.payload;
+      const newOrderList = draft.products.orderedList.filter((product) => product.id !== productId);
+      const newCartOrderInfo = draft.products.cartOrderInfo.filter((product) => product.id !== productId);
 
-      return produce(state, (draft) => {
-        const newOrderList = draft.products.orderedList.filter((product) => product.id !== productId);
-        const newCartOrderInfo = draft.products.cartOrderInfo.filter((product) => product.id !== productId);
+      draft.products.orderedList = newOrderList;
+      draft.products.cartOrderInfo = newCartOrderInfo;
 
-        draft.products.orderedList = newOrderList;
-        draft.products.cartOrderInfo = newCartOrderInfo;
-      });
+      return;
     }
 
     case INCREMENT_PRODUCT_CART: {
       const { productId } = action.payload;
+      const product = draft.products.cartOrderInfo.find((product) => product.id === productId);
 
-      return produce(state, (draft) => {
-        const product = draft.products.cartOrderInfo.find((product) => product.id === productId);
+      product.count = product.count + 1;
+      product.total = product.cost * product.count;
 
-        product.count = product.count + 1;
-        product.total = product.cost * product.count;
-      });
+      return;
     }
 
     case DECREMENT_PRODUCT_CART: {
       const { productId } = action.payload;
+      const product = draft.products.cartOrderInfo.find((product) => product.id === productId);
 
-      return produce(state, (draft) => {
-        const product = draft.products.cartOrderInfo.find((product) => product.id === productId);
+      if (product.count >= 2) {
+        product.count = product.count - 1;
+        product.total = product.cost * product.count;
+      }
 
-        if (product.count >= 2) {
-          product.count = product.count - 1;
-          product.total = product.cost * product.count;
-        }
-      });
+      return;
     }
 
     default:
-      return state;
+      return draft;
   }
-};
+});
