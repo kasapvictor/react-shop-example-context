@@ -2,7 +2,7 @@
   "name": "rect-shop-example-context",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://github.com/kasapvictor/react-shop-example-useImmer",
+  "homepage": "https://github.com/kasapvictor/react-shop-example-context",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
