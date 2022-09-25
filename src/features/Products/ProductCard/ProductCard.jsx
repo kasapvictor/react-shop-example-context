@@ -25,19 +25,17 @@ export const ProductCard = ({ productId }) => {
   const nameFormatted = description.substring(0, MAX_LENGTH_NAME);
   const descriptionFormatted = description.substring(0, MAX_LENGTH_DESC);
 
-  const notify = (message) => toast.success(message);
-
   const handleAddToCart = (productId) => () => {
     const orderedProduct = products.list.find((product) => product.id === productId);
     const isOrderedProduct = existingInOrderList(productId, products.orderedList)();
 
     if (!isOrderedProduct) {
       addToCart(productId)(dispatch);
-      notify(`${orderedProduct.name} добавлен в корзину`);
+      toast.success(`${orderedProduct.name} добавлен в корзину`);
     }
 
     if (isOrderedProduct) {
-      notify(`${orderedProduct.name} уже в корзине`);
+      toast.info(`${orderedProduct.name} уже в корзине`);
     }
   };
 

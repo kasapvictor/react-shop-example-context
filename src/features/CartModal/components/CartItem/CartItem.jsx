@@ -15,8 +15,6 @@ export const CartItem = ({ productId }) => {
   const product = products.cartOrderInfo.find((product) => product.id === productId);
   const { id, cost, count, name, total } = product;
 
-  const notify = (message) => toast.success(message);
-
   const handleIncrement = (productId) => () => {
     incProduct(productId)(dispatch);
   };
@@ -27,7 +25,7 @@ export const CartItem = ({ productId }) => {
 
   const handleRemove = (productId) => () => {
     removeFromCart(productId)(dispatch);
-    notify('Товар удален');
+    toast.success('Товар удален', { theme: 'dark' });
   };
 
   return (

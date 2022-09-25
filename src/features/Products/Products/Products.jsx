@@ -61,7 +61,6 @@ export const Products = () => {
           {fetching.error}
         </>
       )}
-
       {isCartModal && <CartModal />}
     </>
   );
