@@ -1,27 +1,31 @@
-import PropTypes from 'prop-types';
+import { useState, useContext } from 'react';
 import { Modal } from '@components/Modal';
-import { useState } from 'react';
 
 import { INTERVAL_3 } from '@app/constants';
+import { ProductsContext } from '@app/features';
 
 import { Text } from '@components';
 
 import { CartModalBody, CartModalContainer, CartModalFooter, CartModalHeader, CartModalWrapper } from './styled';
 import { CartItem } from './components';
 
-export const CartModal = ({ products, isOpen, onClose, inc, dec, remove }) => {
-  const [isClose, setIsOpen] = useState(false);
+export const CartModal = () => {
+  const state = useContext(ProductsContext);
+  const { products, isCartModal, setCartModal } = state;
+
+  const [isCloseCartModal, setIsCloseCartModal] = useState(false);
 
   const handleClose = () => {
-    setIsOpen(true);
+    setIsCloseCartModal(true);
+
     setTimeout(() => {
-      onClose();
+      setCartModal(false);
     }, INTERVAL_3);
   };
 
   const totalCost = () => {
-    if (products.length) {
-      return products.reduce((acc, prev) => {
+    if (products.cartOrderInfo.length) {
+      return products.cartOrderInfo.reduce((acc, prev) => {
         const cost = prev.total ?? prev.cost;
         return Number(acc) + Number(cost);
       }, 0);
@@ -30,8 +34,8 @@ export const CartModal = ({ products, isOpen, onClose, inc, dec, remove }) => {
 
   return (
     <>
-      {isOpen && (
-        <CartModalWrapper isOpen={!isClose}>
+      {isCartModal && (
+        <CartModalWrapper isOpen={!isCloseCartModal}>
           <Modal onClose={handleClose}>
             <CartModalContainer>
               <CartModalHeader>
@@ -40,12 +44,12 @@ export const CartModal = ({ products, isOpen, onClose, inc, dec, remove }) => {
                 </Text>
               </CartModalHeader>
               <CartModalBody>
-                {!products.length && 'Товаров пока нет'}
-                {products.map((product) => (
-                  <CartItem key={product.id} product={product} inc={inc} dec={dec} remove={remove} />
+                {!products.cartOrderInfo.length && 'Товаров пока нет'}
+                {products.cartOrderInfo.map((product) => (
+                  <CartItem key={product.id} productId={product.id} />
                 ))}
               </CartModalBody>
-              {!!products.length && (
+              {!!products.cartOrderInfo.length && (
                 <CartModalFooter>
                   <Text variant="bold" size="xxlarge">
                     Итого: {totalCost()} руб.
@@ -59,21 +63,3 @@ export const CartModal = ({ products, isOpen, onClose, inc, dec, remove }) => {
     </>
   );
 };
-
-CartModal.propTypes = {
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-  products: PropTypes.array,
-  inc: PropTypes.func,
-  dec: PropTypes.func,
-  remove: PropTypes.func,
-};
-
-/*
-{
-  cost: PropTypes.number,
-  count: PropTypes.number,
-  id: PropTypes.string,
-  name: PropTypes.string,
-}
- */

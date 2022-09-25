@@ -1,6 +1,9 @@
+import { toast } from 'react-toastify';
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { COLOR_NAME } from '@app/constants';
+import { ProductsContext } from '@app/features';
 
 import { Text, Button, Check } from '@components';
 
@@ -10,13 +13,33 @@ import { ProductCardStyled, FooterStyled, ProductHeaderStyled, BodyStyled } from
 const MAX_LENGTH_NAME = 16;
 const MAX_LENGTH_DESC = 25;
 
-export const ProductCard = ({ product, addToCart, existingInOrder }) => {
+export const ProductCard = ({ productId }) => {
+  const state = useContext(ProductsContext);
+  const { addToCart, products, existingInOrderList } = state;
+  const product = products.list.find((product) => product.id === productId);
   const { id, name, price, categories, description, image } = product;
+
   // eslint-disable-next-line no-console
   console.log('category', categories);
 
   const nameFormatted = description.substring(0, MAX_LENGTH_NAME);
   const descriptionFormatted = description.substring(0, MAX_LENGTH_DESC);
+
+  const notify = (message) => toast.success(message);
+
+  const handleAddToCart = (productId) => () => {
+    const orderedProduct = products.list.find((product) => product.id === productId);
+    const isOrderedProduct = existingInOrderList(productId);
+
+    if (!isOrderedProduct) {
+      addToCart(productId);
+      notify(`${orderedProduct.name} добавлен в корзину`);
+    }
+
+    if (isOrderedProduct) {
+      notify(`${orderedProduct.name} уже в корзине`);
+    }
+  };
 
   return (
     <ProductCardStyled>
@@ -40,23 +63,14 @@ export const ProductCard = ({ product, addToCart, existingInOrder }) => {
           <Text size="xxlarge" variant="bold" color={COLOR_NAME.DANGER}>
             {price}$
           </Text>
-          <Button onClick={addToCart(id)}>Купить</Button>
+          <Button onClick={handleAddToCart(id)}>Купить</Button>
         </FooterStyled>
       </Content>
-      {existingInOrder(id) && <Check color={COLOR_NAME.SUCCESS} />}
+      {existingInOrderList(id) && <Check color={COLOR_NAME.SUCCESS} />}
     </ProductCardStyled>
   );
 };
 
 ProductCard.propTypes = {
-  product: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    price: PropTypes.number,
-    categories: PropTypes.string,
-    description: PropTypes.string,
-    image: PropTypes.string,
-  }),
-  addToCart: PropTypes.func,
-  existingInOrder: PropTypes.func,
+  productId: PropTypes.string,
 };

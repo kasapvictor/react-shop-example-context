@@ -2,7 +2,7 @@ import React from 'react';
 import { ToastContainer } from 'react-toastify';
 
 import '@app/theme/styles';
-import { Products } from '@app/features';
+import { Shop } from '@app/features';
 import { Header, Main, Footer } from '@app/layouts';
 
 import { Title, Text, Link } from '@components';
@@ -16,7 +16,7 @@ export const App = () => {
         </Title>
       </Header>
       <Main>
-        <Products />
+        <Shop />
       </Main>
       <Footer>
         <Title type="h4" size="h4" variant="thin" color="white">

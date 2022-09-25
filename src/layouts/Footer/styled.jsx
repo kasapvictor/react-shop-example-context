@@ -12,6 +12,5 @@ export const FooterStyled = styled.footer({
 export const FooterContainer = styled.footer({
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'center'
+  alignItems: 'center',
 });
-
