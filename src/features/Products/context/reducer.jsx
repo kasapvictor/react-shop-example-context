@@ -1,3 +1,5 @@
+import produce from 'immer';
+
 import { DISPATCH_NAME } from '@app/constants';
 
 const {
@@ -15,114 +17,79 @@ export const reducer = (state, action) => {
 
   switch (type) {
     case SET_CART_MODAL: {
-      return {
-        ...state,
-        isCartModal: payload,
-      };
+      return produce(state, (draft) => {
+        draft.isCartModal = payload;
+      });
     }
 
     case FETCHED_PRODUCTS: {
       const { fetchedProducts } = action.payload;
-      return {
-        ...state,
-        products: {
-          ...state.products,
-          list: fetchedProducts,
-        },
-      };
+
+      return produce(state, (draft) => {
+        draft.products.list = fetchedProducts;
+      });
     }
 
     case SET_FETCHED_STATUS: {
       const { fetchingStatus, error } = action.payload;
-      return {
-        ...state,
-        fetching: {
-          ...state.fetching,
-          status: fetchingStatus,
-          error,
-        },
-      };
+
+      return produce(state, (draft) => {
+        draft.fetching.status = fetchingStatus;
+        draft.fetching.error = error;
+      });
     }
 
     case ADD_PRODUCT_TO_CART: {
       const { productId } = action.payload;
-      const newProduct = state.products.list.find((product) => product.id === productId);
 
-      const newOrderedList = [...state.products.orderedList, newProduct];
-      const newCartOrderInfo = [
-        ...state.products.cartOrderInfo,
-        {
+      return produce(state, (draft) => {
+        const orderedProduct = draft.products.list.find((product) => product.id === productId);
+
+        draft.products.orderedList.push(orderedProduct);
+        draft.products.cartOrderInfo.push({
           count: 1,
-          id: newProduct.id,
-          name: newProduct.name,
-          cost: newProduct.price,
-          total: newProduct.price,
-        },
-      ];
-
-      return {
-        ...state,
-        products: {
-          ...state.products,
-          orderedList: newOrderedList,
-          cartOrderInfo: newCartOrderInfo,
-        },
-      };
+          id: orderedProduct.id,
+          name: orderedProduct.name,
+          cost: orderedProduct.price,
+          total: orderedProduct.price,
+        });
+      });
     }
 
     case REMOVE_PRODUCT_FROM_CART: {
       const { productId } = action.payload;
-      const filteredOrderedList = state.products.orderedList.filter((product) => product.id !== productId);
-      const filteredCartOrderInfo = state.products.cartOrderInfo.filter((product) => product.id !== productId);
 
-      return {
-        ...state,
-        products: {
-          ...state.products,
-          orderedList: filteredOrderedList,
-          cartOrderInfo: filteredCartOrderInfo,
-        },
-      };
+      return produce(state, (draft) => {
+        const newOrderList = draft.products.orderedList.filter((product) => product.id !== productId);
+        const newCartOrderInfo = draft.products.cartOrderInfo.filter((product) => product.id !== productId);
+
+        draft.products.orderedList = newOrderList;
+        draft.products.cartOrderInfo = newCartOrderInfo;
+      });
     }
 
     case INCREMENT_PRODUCT_CART: {
       const { productId } = action.payload;
-      const newCartOrderInfo = state.products.cartOrderInfo.map((product) => {
-        if (product.id === productId) {
-          product.count = product.count + 1;
-          product.total = product.cost * product.count;
-        }
 
-        return product;
+      return produce(state, (draft) => {
+        const product = draft.products.cartOrderInfo.find((product) => product.id === productId);
+
+        product.count = product.count + 1;
+        product.total = product.cost * product.count;
       });
-
-      return {
-        ...state,
-        products: {
-          ...state.products,
-          cartOrderInfo: newCartOrderInfo,
-        },
-      };
     }
 
     case DECREMENT_PRODUCT_CART: {
       const { productId } = action.payload;
-      const newCartOrderInfo = state.products.cartOrderInfo.map((product) => {
-        if (product.id === productId && product.count >= 2) {
+
+      return produce(state, (draft) => {
+        const product = draft.products.cartOrderInfo.find((product) => product.id === productId);
+
+        if (product.count >= 2) {
           product.count = product.count - 1;
           product.total = product.cost * product.count;
         }
-
-        return product;
       });
-
-      return {
-        ...state,
-        products: {
-          ...state.products,
-          cartOrderInfo: newCartOrderInfo,
-        },
-      };
     }
 
     default:

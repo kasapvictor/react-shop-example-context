@@ -2,16 +2,15 @@ import { toast } from 'react-toastify';
 import { useContext } from 'react';
 import PropTypes from 'prop-types';
 
-import { ProductsContext } from '@app/features';
 import { fontSizes } from '@app/theme';
-
-import { Button, Text } from '@components';
+import { Button, Text } from '@app/components';
+import { ProductsContext, incProduct, decProduct, removeFromCart } from '@app/features';
 
 import { CartItemName, CartItemRemove, CartItemStyled, CartItemCount, CartItemCost } from './styled';
 
 export const CartItem = ({ productId }) => {
-  const state = useContext(ProductsContext);
-  const { products, incProduct, decProduct, removeFromCart } = state;
+  const { state, dispatch } = useContext(ProductsContext);
+  const { products } = state;
 
   const product = products.cartOrderInfo.find((product) => product.id === productId);
   const { id, cost, count, name, total } = product;
@@ -19,15 +18,15 @@ export const CartItem = ({ productId }) => {
   const notify = (message) => toast.success(message);
 
   const handleIncrement = (productId) => () => {
-    incProduct(productId);
+    incProduct(productId)(dispatch);
   };
 
   const handleDecrement = (productId) => () => {
-    decProduct(productId);
+    decProduct(productId)(dispatch);
   };
 
   const handleRemove = (productId) => () => {
-    removeFromCart(productId);
+    removeFromCart(productId)(dispatch);
     notify('Товар удален');
   };
 

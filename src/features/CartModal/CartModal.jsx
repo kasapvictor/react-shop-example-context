@@ -1,17 +1,15 @@
 import { useState, useContext } from 'react';
-import { Modal } from '@components/Modal';
 
 import { INTERVAL_3 } from '@app/constants';
-import { ProductsContext } from '@app/features';
-
-import { Text } from '@components';
+import { Text, Modal } from '@app/components';
+import { ProductsContext, setCartModal } from '@app/features';
 
 import { CartModalBody, CartModalContainer, CartModalFooter, CartModalHeader, CartModalWrapper } from './styled';
 import { CartItem } from './components';
 
 export const CartModal = () => {
-  const state = useContext(ProductsContext);
-  const { products, isCartModal, setCartModal } = state;
+  const { state, dispatch } = useContext(ProductsContext);
+  const { products, isCartModal } = state;
 
   const [isCloseCartModal, setIsCloseCartModal] = useState(false);
 
@@ -19,7 +17,7 @@ export const CartModal = () => {
     setIsCloseCartModal(true);
 
     setTimeout(() => {
-      setCartModal(false);
+      setCartModal(false)(dispatch);
     }, INTERVAL_3);
   };
 

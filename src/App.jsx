@@ -4,8 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import '@app/theme/styles';
 import { Shop } from '@app/features';
 import { Header, Main, Footer } from '@app/layouts';
-
-import { Title, Text, Link } from '@components';
+import { Title, Text, Link } from '@app/components';
 
 export const App = () => {
   return (

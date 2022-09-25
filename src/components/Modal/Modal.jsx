@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 
+import { Button } from '@app/components';
 import { fontSizes } from '@app/theme';
-
-import { Button } from '@components';
 
 import { ModalStyled, ModalBody, ModalClose, ModalBackground, ModalContainer } from './styled';
 

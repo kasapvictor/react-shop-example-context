@@ -2,39 +2,38 @@ import { useEffect, useContext } from 'react';
 
 import { STATUS } from '@app/constants';
 import { fetchProducts } from '@app/api';
-import { CartModal, ProductCard, ProductsContext } from '@app/features';
-
-import { Preloader, Text, Cart } from '@components';
+import { Preloader, Text, Cart } from '@app/components';
+import { CartModal, ProductCard, ProductsContext, setFetchingStatus, addProducts, setCartModal } from '@app/features';
 
 import { ProductsStyled } from './styled';
 
 const { IDLE, LOADING, SUCCEEDED, FAILED } = STATUS;
 
 export const Products = () => {
-  const state = useContext(ProductsContext);
-  const { fetching, products, setCartModal, isCartModal } = state;
+  const { state, dispatch } = useContext(ProductsContext);
+  const { fetching, products, isCartModal } = state;
 
   useEffect(() => {
     const fetchingProducts = fetchProducts();
 
-    state.setFetchingStatus(LOADING, null);
+    setFetchingStatus(LOADING, null)(dispatch);
 
     fetchingProducts.then((data) => {
       const { featured } = data;
 
       if (featured) {
-        state.setFetchingStatus(SUCCEEDED, null);
-        state.addProducts(featured);
+        setFetchingStatus(SUCCEEDED, null)(dispatch);
+        addProducts(featured)(dispatch);
       }
 
       if (!featured) {
-        state.setFetchingStatus(FAILED, data);
+        setFetchingStatus(FAILED, data)(dispatch);
       }
     });
   }, []);
 
   const handleOpenCartModal = () => {
-    setCartModal(true);
+    setCartModal(true)(dispatch);
   };
 
   return (

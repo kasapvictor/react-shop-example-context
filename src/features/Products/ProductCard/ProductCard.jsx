@@ -3,9 +3,8 @@ import { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { COLOR_NAME } from '@app/constants';
-import { ProductsContext } from '@app/features';
-
-import { Text, Button, Check } from '@components';
+import { Text, Button, Check } from '@app/components';
+import { ProductsContext, addToCart, existingInOrderList } from '@app/features';
 
 import { Poster, Content } from './components';
 import { ProductCardStyled, FooterStyled, ProductHeaderStyled, BodyStyled } from './styled';
@@ -14,9 +13,10 @@ const MAX_LENGTH_NAME = 16;
 const MAX_LENGTH_DESC = 25;
 
 export const ProductCard = ({ productId }) => {
-  const state = useContext(ProductsContext);
-  const { addToCart, products, existingInOrderList } = state;
-  const product = products.list.find((product) => product.id === productId);
+  const { state, dispatch } = useContext(ProductsContext);
+  const { products } = state;
+
+  const product = state.products.list.find((product) => product.id === productId);
   const { id, name, price, categories, description, image } = product;
 
   // eslint-disable-next-line no-console
@@ -29,10 +29,10 @@ export const ProductCard = ({ productId }) => {
 
   const handleAddToCart = (productId) => () => {
     const orderedProduct = products.list.find((product) => product.id === productId);
-    const isOrderedProduct = existingInOrderList(productId);
+    const isOrderedProduct = existingInOrderList(productId, products.orderedList)();
 
     if (!isOrderedProduct) {
-      addToCart(productId);
+      addToCart(productId)(dispatch);
       notify(`${orderedProduct.name} добавлен в корзину`);
     }
 
@@ -66,7 +66,7 @@ export const ProductCard = ({ productId }) => {
           <Button onClick={handleAddToCart(id)}>Купить</Button>
         </FooterStyled>
       </Content>
-      {existingInOrderList(id) && <Check color={COLOR_NAME.SUCCESS} />}
+      {existingInOrderList(id, products.orderedList)() && <Check color={COLOR_NAME.SUCCESS} />}
     </ProductCardStyled>
   );
 };
