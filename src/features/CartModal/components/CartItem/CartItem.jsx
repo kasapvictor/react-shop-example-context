@@ -11,7 +11,7 @@ import { CartItemName, CartItemRemove, CartItemStyled, CartItemCount, CartItemCo
 
 export const CartItem = ({ productId }) => {
   const state = useContext(ProductsContext);
-  const { products, incProduct, decProduct, removeProduct } = state;
+  const { products, incProduct, decProduct, removeFromCart } = state;
 
   const product = products.cartOrderInfo.find((product) => product.id === productId);
   const { id, cost, count, name, total } = product;
@@ -27,7 +27,7 @@ export const CartItem = ({ productId }) => {
   };
 
   const handleRemove = (productId) => () => {
-    removeProduct(productId);
+    removeFromCart(productId);
     notify('Товар удален');
   };
 

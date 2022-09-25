@@ -1,14 +1,27 @@
+import { DISPATCH_NAME } from '@app/constants';
+
+const {
+  SET_FETCHED_STATUS,
+  SET_CART_MODAL,
+  ADD_PRODUCT_TO_CART,
+  REMOVE_PRODUCT_FROM_CART,
+  FETCHED_PRODUCTS,
+  INCREMENT_PRODUCT_CART,
+  DECREMENT_PRODUCT_CART,
+} = DISPATCH_NAME;
+
 export const reducer = (state, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case 'CART_MODAL': {
+    case SET_CART_MODAL: {
       return {
         ...state,
         isCartModal: payload,
       };
     }
-    case 'ADD_PRODUCTS': {
+
+    case FETCHED_PRODUCTS: {
       const { fetchedProducts } = action.payload;
       return {
         ...state,
@@ -18,7 +31,8 @@ export const reducer = (state, action) => {
         },
       };
     }
-    case 'SET_STATUS': {
+
+    case SET_FETCHED_STATUS: {
       const { fetchingStatus, error } = action.payload;
       return {
         ...state,
@@ -29,7 +43,8 @@ export const reducer = (state, action) => {
         },
       };
     }
-    case 'ADD_PRODUCT': {
+
+    case ADD_PRODUCT_TO_CART: {
       const { productId } = action.payload;
       const newProduct = state.products.list.find((product) => product.id === productId);
 
@@ -54,7 +69,8 @@ export const reducer = (state, action) => {
         },
       };
     }
-    case 'REMOVE_PRODUCT': {
+
+    case REMOVE_PRODUCT_FROM_CART: {
       const { productId } = action.payload;
       const filteredOrderedList = state.products.orderedList.filter((product) => product.id !== productId);
       const filteredCartOrderInfo = state.products.cartOrderInfo.filter((product) => product.id !== productId);
@@ -69,7 +85,7 @@ export const reducer = (state, action) => {
       };
     }
 
-    case 'INCREMENT_PRODUCT': {
+    case INCREMENT_PRODUCT_CART: {
       const { productId } = action.payload;
       const newCartOrderInfo = state.products.cartOrderInfo.map((product) => {
         if (product.id === productId) {
@@ -89,7 +105,7 @@ export const reducer = (state, action) => {
       };
     }
 
-    case 'DECREMENT_PRODUCT': {
+    case DECREMENT_PRODUCT_CART: {
       const { productId } = action.payload;
       const newCartOrderInfo = state.products.cartOrderInfo.map((product) => {
         if (product.id === productId && product.count >= 2) {
@@ -108,6 +124,7 @@ export const reducer = (state, action) => {
         },
       };
     }
+
     default:
       return state;
   }
