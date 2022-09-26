@@ -1,5 +1,5 @@
+import { useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { COLOR_NAME } from '@app/constants';
@@ -19,8 +19,10 @@ export const ProductCard = ({ productId }) => {
   const product = state.products.list.find((product) => product.id === productId);
   const { id, name, price, categories, description, image } = product;
 
-  // eslint-disable-next-line no-console
-  console.log('category', categories);
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('Product card was rendered useEffect', categories);
+  }, []);
 
   const nameFormatted = description.substring(0, MAX_LENGTH_NAME);
   const descriptionFormatted = description.substring(0, MAX_LENGTH_DESC);
@@ -41,6 +43,10 @@ export const ProductCard = ({ productId }) => {
 
   return (
     <ProductCardStyled>
+      {
+        // eslint-disable-next-line no-console
+        console.log('Product card was rendered')
+      }
       <Poster src={image} alt={name} />
       <Content>
         <ProductHeaderStyled>
