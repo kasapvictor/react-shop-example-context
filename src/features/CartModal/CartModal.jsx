@@ -7,7 +7,7 @@ import { ProductsContext, setCartModal } from '@app/features';
 import { CartModalBody, CartModalContainer, CartModalFooter, CartModalHeader, CartModalWrapper } from './styled';
 import { CartItem } from './components';
 
-const CartModalComponent = () => {
+export const CartModal = () => {
   const { state, dispatch } = useContext(ProductsContext);
   const { products, isCartModal } = state;
 
@@ -61,5 +61,3 @@ const CartModalComponent = () => {
     </>
   );
 };
-
-export const CartModal = React.memo(CartModalComponent);

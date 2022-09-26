@@ -11,7 +11,7 @@ import { ProductsStyled } from './styled';
 
 const { IDLE, LOADING, SUCCEEDED, FAILED } = STATUS;
 
-const ProductsComponent = () => {
+export const Products = () => {
   const { state, dispatch } = useContext(ProductsContext);
   const { fetching, countProducts, isCartModal } = state;
 
@@ -63,5 +63,3 @@ const ProductsComponent = () => {
     </>
   );
 };
-
-export const Products = React.memo(ProductsComponent);

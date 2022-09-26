@@ -1,4 +1,4 @@
-import { createContext, useReducer, useMemo } from 'react';
+import { createContext, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
 import { STATUS } from '@app/constants';
@@ -23,9 +23,8 @@ const initialState = () => ({
 
 export const ProductsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState());
-  const memoState = useMemo(() => ({ state, dispatch }), [state]);
 
-  return <ProductsContext.Provider value={{ ...memoState }}>{children}</ProductsContext.Provider>;
+  return <ProductsContext.Provider value={{ state, dispatch }}>{children}</ProductsContext.Provider>;
 };
 
 ProductsProvider.propTypes = {

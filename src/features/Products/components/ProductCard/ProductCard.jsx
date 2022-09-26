@@ -12,7 +12,7 @@ import { ProductCardStyled, FooterStyled, ProductHeaderStyled, BodyStyled } from
 const MAX_LENGTH_NAME = 16;
 const MAX_LENGTH_DESC = 25;
 
-const ProductCardComponent = ({ productId }) => {
+export const ProductCard = ({ productId }) => {
   const { state, dispatch } = useContext(ProductsContext);
   const { products } = state;
 
@@ -28,16 +28,15 @@ const ProductCardComponent = ({ productId }) => {
   const descriptionFormatted = description.substring(0, MAX_LENGTH_DESC);
 
   const handleAddToCart = (productId) => () => {
-    const orderedProduct = products.list.find((product) => product.id === productId);
     const isOrderedProduct = existingInOrderList(productId, products.orderedList)();
 
     if (!isOrderedProduct) {
       addToCart(productId)(dispatch);
-      toast.success(`${orderedProduct.name} добавлен в корзину`);
+      toast.success(`${name} добавлен в корзину`);
     }
 
     if (isOrderedProduct) {
-      toast.info(`${orderedProduct.name} уже в корзине`);
+      toast.info(`${name} уже в корзине`);
     }
   };
 
@@ -75,8 +74,6 @@ const ProductCardComponent = ({ productId }) => {
   );
 };
 
-ProductCardComponent.propTypes = {
+ProductCard.propTypes = {
   productId: PropTypes.string,
 };
-
-export const ProductCard = React.memo(ProductCardComponent);
