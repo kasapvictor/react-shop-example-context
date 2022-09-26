@@ -12,6 +12,7 @@ const initialState = () => ({
     list: [],
     orderedList: [],
     cartOrderInfo: [],
+    countProducts: 0,
   },
   fetching: {
     status: STATUS.IDLE,

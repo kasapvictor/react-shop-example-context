@@ -1,17 +1,19 @@
-import { useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 
 import { STATUS } from '@app/constants';
 import { fetchProducts } from '@app/api';
+import { CartModal } from '@app/features';
 import { Preloader, Text, Cart } from '@app/components';
-import { CartModal, ProductCard, ProductsContext, setFetchingStatus, addProducts, setCartModal } from '@app/features';
 
+import { ProductsContext, setFetchingStatus, addProducts, setCartModal } from './context';
+import { ProductList } from './components';
 import { ProductsStyled } from './styled';
 
 const { IDLE, LOADING, SUCCEEDED, FAILED } = STATUS;
 
-export const Products = () => {
+const ProductsComponent = () => {
   const { state, dispatch } = useContext(ProductsContext);
-  const { fetching, products, isCartModal } = state;
+  const { fetching, countProducts, isCartModal } = state;
 
   useEffect(() => {
     const fetchingProducts = fetchProducts();
@@ -38,20 +40,16 @@ export const Products = () => {
 
   return (
     <>
-      <Cart count={products.orderedList.length} onClick={handleOpenCartModal} />
+      <Cart count={countProducts} onClick={handleOpenCartModal} />
+
       <ProductsStyled>
         {(fetching.status === IDLE || fetching.status === LOADING) && <Preloader />}
 
         {fetching.status === LOADING && 'Loading products ...'}
 
-        {fetching.status === SUCCEEDED && (
-          <>
-            {products.list.map((product) => (
-              <ProductCard key={product.id} productId={product.id} />
-            ))}
-          </>
-        )}
+        {fetching.status === SUCCEEDED && <ProductList />}
       </ProductsStyled>
+
       {fetching.status === FAILED && (
         <>
           <Text variant="bold" size="xlarge">
@@ -65,3 +63,5 @@ export const Products = () => {
     </>
   );
 };
+
+export const Products = React.memo(ProductsComponent);

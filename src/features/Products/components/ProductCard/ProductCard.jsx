@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 
@@ -12,7 +12,7 @@ import { ProductCardStyled, FooterStyled, ProductHeaderStyled, BodyStyled } from
 const MAX_LENGTH_NAME = 16;
 const MAX_LENGTH_DESC = 25;
 
-export const ProductCard = ({ productId }) => {
+const ProductCardComponent = ({ productId }) => {
   const { state, dispatch } = useContext(ProductsContext);
   const { products } = state;
 
@@ -75,6 +75,8 @@ export const ProductCard = ({ productId }) => {
   );
 };
 
-ProductCard.propTypes = {
+ProductCardComponent.propTypes = {
   productId: PropTypes.string,
 };
+
+export const ProductCard = React.memo(ProductCardComponent);
