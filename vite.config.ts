@@ -42,7 +42,23 @@ export default defineConfig({
     sourcemap: !isProdMode,
     rollupOptions: rollupConfig,
   },
-  plugins: [react()],
+  plugins: [
+    react({
+      babel: {
+        plugins: [
+          [
+            '@emotion',
+            {
+              sourceMap: true,
+              autoLabel: 'dev-only',
+              labelFormat: '[local]',
+              cssPropOptimization: true,
+            },
+          ],
+        ],
+      },
+    }),
+  ],
   css: {
     devSourcemap: true,
   },
