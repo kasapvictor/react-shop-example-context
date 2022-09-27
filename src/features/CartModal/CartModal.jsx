@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 import { Text, Modal } from '@app/components';
 import { setCartModal, useTrackedState, useDispatch } from '@app/features';
@@ -25,53 +24,28 @@ export const CartModal = () => {
     }
   };
 
-  const animationVariants = {
-    hidden: {
-      opacity: 0,
-      zIndex: -10,
-      transition: {
-        ease: 'easeInOut',
-        duration: 0.3,
-      },
-    },
-    visible: {
-      opacity: 1,
-      zIndex: 100,
-      transition: {
-        ease: 'easeInOut',
-        duration: 0.3,
-      },
-    },
-  };
-
   return (
-    <AnimatePresence>
-      {isCartModal && (
-        <motion.div animate="visible" initial="hidden" exit="hidden" variants={animationVariants}>
-          <Modal onClose={handleClose}>
-            <CartModalContainer>
-              <CartModalHeader>
-                <Text variant="semiBold" size="xxlarge">
-                  Корзина: {!products.length ? 'пуста' : products.length}
-                </Text>
-              </CartModalHeader>
-              <CartModalBody>
-                {!products.cartOrderInfo.length && 'Товаров пока нет'}
-                {products.cartOrderInfo.map((product) => (
-                  <CartItem key={product.id} productId={product.id} />
-                ))}
-              </CartModalBody>
-              {!!products.cartOrderInfo.length && (
-                <CartModalFooter>
-                  <Text variant="bold" size="xxlarge">
-                    Итого: {totalCost()} руб.
-                  </Text>
-                </CartModalFooter>
-              )}
-            </CartModalContainer>
-          </Modal>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <Modal isOpen={isCartModal} onClose={handleClose}>
+      <CartModalContainer>
+        <CartModalHeader>
+          <Text variant="semiBold" size="xxlarge">
+            Корзина: {!products.length ? 'пуста' : products.length}
+          </Text>
+        </CartModalHeader>
+        <CartModalBody>
+          {!products.cartOrderInfo.length && 'Товаров пока нет'}
+          {products.cartOrderInfo.map((product) => (
+            <CartItem key={product.id} productId={product.id} />
+          ))}
+        </CartModalBody>
+        {!!products.cartOrderInfo.length && (
+          <CartModalFooter>
+            <Text variant="bold" size="xxlarge">
+              Итого: {totalCost()} руб.
+            </Text>
+          </CartModalFooter>
+        )}
+      </CartModalContainer>
+    </Modal>
   );
 };
