@@ -1,11 +1,9 @@
-import { createContext, useReducer } from 'react';
-import PropTypes from 'prop-types';
+import { useReducer } from 'react';
+import { createContainer } from 'react-tracked';
 
 import { STATUS } from '@app/constants';
 
 import { reducer } from './reducer';
-
-export const ProductsContext = createContext();
 
 const initialState = () => ({
   products: {
@@ -21,12 +19,6 @@ const initialState = () => ({
   isCartModal: false,
 });
 
-export const ProductsProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState());
+const useStateValue = () => useReducer(reducer, initialState());
 
-  return <ProductsContext.Provider value={{ state, dispatch }}>{children}</ProductsContext.Provider>;
-};
-
-ProductsProvider.propTypes = {
-  children: PropTypes.node,
-};
+export const { Provider, useTrackedState, useUpdate: useDispatch } = createContainer(useStateValue);

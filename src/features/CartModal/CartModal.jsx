@@ -1,14 +1,15 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 
 import { INTERVAL_3 } from '@app/constants';
 import { Text, Modal } from '@app/components';
-import { ProductsContext, setCartModal } from '@app/features';
+import { setCartModal, useTrackedState, useDispatch } from '@app/features';
 
 import { CartModalBody, CartModalContainer, CartModalFooter, CartModalHeader, CartModalWrapper } from './styled';
 import { CartItem } from './components';
 
 export const CartModal = () => {
-  const { state, dispatch } = useContext(ProductsContext);
+  const state = useTrackedState();
+  const dispatch = useDispatch();
   const { products, isCartModal } = state;
 
   const [isCloseCartModal, setIsCloseCartModal] = useState(false);

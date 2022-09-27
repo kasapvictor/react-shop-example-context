@@ -1,18 +1,19 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 
 import { STATUS } from '@app/constants';
 import { fetchProducts } from '@app/api';
 import { CartModal } from '@app/features';
 import { Preloader, Text, Cart } from '@app/components';
 
-import { ProductsContext, setFetchingStatus, addProducts, setCartModal } from './context';
+import { setFetchingStatus, addProducts, setCartModal, useTrackedState, useDispatch } from './context';
 import { ProductList } from './components';
 import { ProductsStyled } from './styled';
 
 const { IDLE, LOADING, SUCCEEDED, FAILED } = STATUS;
 
 export const Products = () => {
-  const { state, dispatch } = useContext(ProductsContext);
+  const state = useTrackedState();
+  const dispatch = useDispatch();
   const { fetching, countProducts, isCartModal } = state;
 
   useEffect(() => {

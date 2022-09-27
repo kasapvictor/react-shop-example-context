@@ -2,8 +2,8 @@
 export { Products } from './Products';
 export { CartModal } from './CartModal';
 export {
-  ProductsContext,
-  ProductsProvider,
+  // ProductsContext,
+  // ProductsProvider,
   setFetchingStatus,
   addToCart,
   addProducts,
@@ -12,5 +12,8 @@ export {
   setCartModal,
   removeFromCart,
   existingInOrderList,
+  Provider,
+  useDispatch,
+  useTrackedState,
 } from './Products/context';
 export { Shop } from './Shop';

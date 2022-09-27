@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Products, ProductsProvider } from '@app/features';
+import { Products, Provider } from '@app/features';
 
 export const Shop = () => {
   return (
-    <ProductsProvider>
+    <Provider>
       <Products />
-    </ProductsProvider>
+    </Provider>
   );
 };

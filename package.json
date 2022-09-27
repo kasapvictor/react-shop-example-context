@@ -25,10 +25,10 @@
     "react-dom": "^18.2.0",
     "react-loaders": "^3.0.1",
     "react-toastify": "^9.0.8",
+    "react-tracked": "^1.7.10",
     "use-immer": "^0.7.0"
   },
   "devDependencies": {
-    "gh-pages": "^4.0.0",
     "@emotion/babel-plugin": "^11.10.2",
     "@emotion/css": "^11.10.0",
     "@emotion/react": "^11.10.4",
@@ -47,6 +47,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.31.1",
+    "gh-pages": "^4.0.0",
     "postcss": "^8.4.5",
     "postcss-preset-env": "^7.8.1",
     "prettier": "^2.7.1",

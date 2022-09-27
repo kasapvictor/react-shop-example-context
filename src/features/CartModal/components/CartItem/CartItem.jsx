@@ -1,15 +1,15 @@
 import { toast } from 'react-toastify';
-import { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { fontSizes } from '@app/theme';
 import { Button, Text } from '@app/components';
-import { ProductsContext, incProduct, decProduct, removeFromCart } from '@app/features';
+import { incProduct, decProduct, removeFromCart, useTrackedState, useDispatch } from '@app/features';
 
 import { CartItemName, CartItemRemove, CartItemStyled, CartItemCount, CartItemCost } from './styled';
 
 export const CartItem = ({ productId }) => {
-  const { state, dispatch } = useContext(ProductsContext);
+  const state = useTrackedState();
+  const dispatch = useDispatch();
   const { products } = state;
 
   const product = products.cartOrderInfo.find((product) => product.id === productId);

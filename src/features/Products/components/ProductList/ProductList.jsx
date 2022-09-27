@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { ProductsContext } from '@app/features';
+import { useTrackedState } from '@app/features';
 import { ProductCard } from '@app/features/Products/components';
 
 export const ProductList = () => {
-  const { state } = useContext(ProductsContext);
+  const state = useTrackedState();
   const { products } = state;
 
   return (
