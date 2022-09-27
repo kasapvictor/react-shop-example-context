@@ -1,5 +1,5 @@
 /* eslint-disable comma-dangle */
-export { Provider, useTrackedState, useDispatch } from './context';
+export { Provider, useTrackedState, useDispatch } from './store';
 export {
   setFetchingStatus,
   addToCart,

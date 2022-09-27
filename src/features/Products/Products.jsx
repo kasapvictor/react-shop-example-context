@@ -5,7 +5,7 @@ import { fetchProducts } from '@app/api';
 import { CartModal } from '@app/features';
 import { Preloader, Text, Cart } from '@app/components';
 
-import { setFetchingStatus, addProducts, setCartModal, useTrackedState, useDispatch } from './context';
+import { setFetchingStatus, addProducts, setCartModal, useTrackedState, useDispatch } from './store';
 import { ProductList } from './components';
 import { ProductsStyled } from './styled';
 

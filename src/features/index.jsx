@@ -2,8 +2,6 @@
 export { Products } from './Products';
 export { CartModal } from './CartModal';
 export {
-  // ProductsContext,
-  // ProductsProvider,
   setFetchingStatus,
   addToCart,
   addProducts,
@@ -15,5 +13,5 @@ export {
   Provider,
   useDispatch,
   useTrackedState,
-} from './Products/context';
+} from './Products/store';
 export { Shop } from './Shop';
