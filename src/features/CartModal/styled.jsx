@@ -1,22 +1,7 @@
-import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { colors, spacing } from '@app/theme';
-import { COLOR_NAME, INTERVAL_3 } from '@app/constants';
-
-const show = keyframes`
-  from { opacity: 0 }
-  to { opacity: 1 }
-`;
-
-const hide = keyframes`
-  from { opacity: 1 }
-  to { opacity: 0 }
-`;
-
-export const CartModalWrapper = styled.div(({ isOpen }) => ({
-  animation: isOpen ? `${show} 0.${INTERVAL_3}s ease-in-out` : `${hide} 0.${INTERVAL_3}s ease-in-out`,
-}));
+import { COLOR_NAME } from '@app/constants';
 
 export const CartModalContainer = styled.div();
 

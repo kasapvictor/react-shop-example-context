@@ -2,8 +2,6 @@ export const API_KEY = import.meta.env.VITE_API_KEY;
 
 export const API_URL = 'https://fortniteapi.io/v1/shop?lang=ru';
 
-export const INTERVAL_3 = 300;
-
 export const STATUS = {
   IDLE: 'idle',
   FAILED: 'failed',

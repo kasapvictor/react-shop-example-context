@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-import { INTERVAL_3 } from '@app/constants';
 import { Text, Modal } from '@app/components';
 import { setCartModal, useTrackedState, useDispatch } from '@app/features';
 
-import { CartModalBody, CartModalContainer, CartModalFooter, CartModalHeader, CartModalWrapper } from './styled';
+import { CartModalBody, CartModalContainer, CartModalFooter, CartModalHeader } from './styled';
 import { CartItem } from './components';
 
 export const CartModal = () => {
@@ -12,14 +12,8 @@ export const CartModal = () => {
   const dispatch = useDispatch();
   const { products, isCartModal } = state;
 
-  const [isCloseCartModal, setIsCloseCartModal] = useState(false);
-
   const handleClose = () => {
-    setIsCloseCartModal(true);
-
-    setTimeout(() => {
-      setCartModal(false)(dispatch);
-    }, INTERVAL_3);
+    setCartModal(false)(dispatch);
   };
 
   const totalCost = () => {
@@ -31,10 +25,29 @@ export const CartModal = () => {
     }
   };
 
+  const animationVariants = {
+    hidden: {
+      opacity: 0,
+      zIndex: -10,
+      transition: {
+        ease: 'easeInOut',
+        duration: 0.3,
+      },
+    },
+    visible: {
+      opacity: 1,
+      zIndex: 100,
+      transition: {
+        ease: 'easeInOut',
+        duration: 0.3,
+      },
+    },
+  };
+
   return (
-    <>
+    <AnimatePresence>
       {isCartModal && (
-        <CartModalWrapper isOpen={!isCloseCartModal}>
+        <motion.div animate="visible" initial="hidden" exit="hidden" variants={animationVariants}>
           <Modal onClose={handleClose}>
             <CartModalContainer>
               <CartModalHeader>
@@ -57,8 +70,8 @@ export const CartModal = () => {
               )}
             </CartModalContainer>
           </Modal>
-        </CartModalWrapper>
+        </motion.div>
       )}
-    </>
+    </AnimatePresence>
   );
 };

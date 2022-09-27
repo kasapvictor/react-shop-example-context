@@ -1,6 +1,7 @@
 /* eslint-disable comma-dangle */
 export { Products } from './Products';
 export { CartModal } from './CartModal';
+export { Cart } from './Cart';
 export {
   setFetchingStatus,
   addToCart,

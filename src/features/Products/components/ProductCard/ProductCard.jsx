@@ -12,7 +12,7 @@ import { ProductCardContainer, ProductCardFooter, ProductCardHeader, ProductCard
 const MAX_LENGTH_NAME = 16;
 const MAX_LENGTH_DESC = 25;
 
-export const ProductCard = ({ productId }) => {
+const ProductCardComponent = ({ productId }) => {
   const state = useTrackedState();
   const dispatch = useDispatch();
   const { products } = state;
@@ -24,7 +24,7 @@ export const ProductCard = ({ productId }) => {
     // eslint-disable-next-line no-console
     console.log('Product card was rendered useEffect', categories);
     // eslint-disable-next-line no-console
-    console.log('Product', product);
+    console.log('Product', { ...product });
   }, []);
 
   const nameFormatted = description.substring(0, MAX_LENGTH_NAME);
@@ -77,6 +77,8 @@ export const ProductCard = ({ productId }) => {
   );
 };
 
-ProductCard.propTypes = {
+ProductCardComponent.propTypes = {
   productId: PropTypes.string,
 };
+
+export const ProductCard = React.memo(ProductCardComponent);

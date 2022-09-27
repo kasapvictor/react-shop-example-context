@@ -2,10 +2,9 @@ import React, { useEffect } from 'react';
 
 import { STATUS } from '@app/constants';
 import { fetchProducts } from '@app/api';
-import { CartModal } from '@app/features';
-import { Preloader, Text, Cart } from '@app/components';
+import { Preloader, Text } from '@app/components';
 
-import { setFetchingStatus, addProducts, setCartModal, useTrackedState, useDispatch } from './store';
+import { setFetchingStatus, addProducts, useTrackedState, useDispatch } from './store';
 import { ProductList } from './components';
 import { ProductsStyled } from './styled';
 
@@ -14,7 +13,7 @@ const { IDLE, LOADING, SUCCEEDED, FAILED } = STATUS;
 export const Products = () => {
   const state = useTrackedState();
   const dispatch = useDispatch();
-  const { fetching, countProducts, isCartModal } = state;
+  const { fetching } = state;
 
   useEffect(() => {
     const fetchingProducts = fetchProducts();
@@ -35,14 +34,8 @@ export const Products = () => {
     });
   }, []);
 
-  const handleOpenCartModal = () => {
-    setCartModal(true)(dispatch);
-  };
-
   return (
     <>
-      <Cart count={countProducts} onClick={handleOpenCartModal} />
-
       <ProductsStyled>
         {(fetching.status === IDLE || fetching.status === LOADING) && <Preloader />}
 
@@ -60,7 +53,6 @@ export const Products = () => {
           {fetching.error}
         </>
       )}
-      {isCartModal && <CartModal />}
     </>
   );
 };

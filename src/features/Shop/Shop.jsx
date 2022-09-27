@@ -1,11 +1,13 @@
 import React from 'react';
 
-import { Products, Provider } from '@app/features';
+import { Provider, Cart, Products, CartModal } from '@app/features';
 
 export const Shop = () => {
   return (
     <Provider>
+      <Cart />
       <Products />
+      <CartModal />
     </Provider>
   );
 };
