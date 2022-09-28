@@ -4,7 +4,7 @@ import { setCartModal, useDispatch, useTrackedState } from '@app/features';
 export const Cart = () => {
   const state = useTrackedState();
   const dispatch = useDispatch();
-  const { countProducts } = state;
+  const { countProducts } = state.products;
 
   const handleOpenCartModal = () => {
     setCartModal(true)(dispatch);

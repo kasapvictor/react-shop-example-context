@@ -44,7 +44,7 @@ export const reducer = produce((draft, action) => {
       const orderedProduct = draft.products.list.find((product) => product.id === productId);
 
       draft.products.orderedList.push(orderedProduct);
-      draft.countProducts = draft.products.orderedList.length;
+      draft.products.countProducts = draft.products.orderedList.length;
       draft.products.cartOrderInfo.push({
         count: 1,
         id: orderedProduct.id,
@@ -63,7 +63,7 @@ export const reducer = produce((draft, action) => {
 
       draft.products.orderedList = newOrderList;
       draft.products.cartOrderInfo = newCartOrderInfo;
-      draft.countProducts = draft.products.orderedList.length;
+      draft.products.countProducts = draft.products.orderedList.length;
 
       return;
     }

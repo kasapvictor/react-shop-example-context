@@ -4,9 +4,6 @@ install-npm:
 install-yarn:
 	yarn install --frozen-lockfile || yarn install
 
-rm-rf-dist:
-	rm -rf dist
-
 pretty:
 	npx prettier --write src
 
@@ -15,10 +12,10 @@ lint:
 
 pre-commit: pretty lint
 
-build-prod: rm-rf-dist pretty lint
+build-prod: pretty lint
 	npx tsc && vite build
 
-build-dev: rm-rf-dist pretty lint
+build-dev: pretty lint
 	npx vite build --mode development
 
 preview:

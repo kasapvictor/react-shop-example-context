@@ -18,6 +18,7 @@ export const CartStyled = styled.button({
   cursor: 'pointer',
   transition: 'background .2s ease',
   border: 'none',
+  zIndex: 10,
 
   '&:hover': {
     background: colors[COLOR_NAME.WARNING01],

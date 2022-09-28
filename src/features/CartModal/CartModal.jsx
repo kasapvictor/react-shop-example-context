@@ -29,7 +29,7 @@ export const CartModal = () => {
       <CartModalContainer>
         <CartModalHeader>
           <Text variant="semiBold" size="xxlarge">
-            Корзина: {!products.length ? 'пуста' : products.length}
+            Корзина: {!products.cartOrderInfo.length ? 'пуста' : products.cartOrderInfo.length}
           </Text>
         </CartModalHeader>
         <CartModalBody>
