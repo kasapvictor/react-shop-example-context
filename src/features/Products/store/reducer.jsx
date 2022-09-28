@@ -41,16 +41,16 @@ export const reducer = produce((draft, action) => {
 
     case ADD_PRODUCT_TO_CART: {
       const { productId } = action.payload;
-      const orderedProduct = draft.products.list.find((product) => product.id === productId);
+      const orderedProduct = draft.products.list.find((product) => product.mainId === productId);
 
       draft.products.orderedList.push(orderedProduct);
       draft.products.countProducts = draft.products.orderedList.length;
       draft.products.cartOrderInfo.push({
         count: 1,
-        id: orderedProduct.id,
-        name: orderedProduct.name,
-        cost: orderedProduct.price,
-        total: orderedProduct.price,
+        id: orderedProduct.mainId,
+        name: orderedProduct.displayName,
+        cost: orderedProduct.price.regularPrice,
+        total: orderedProduct.price.regularPrice,
       });
 
       return;

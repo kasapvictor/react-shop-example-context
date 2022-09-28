@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
-import { STATUS } from '@app/constants';
-import { fetchProducts } from '@app/api';
+import { API_SHOP, STATUS } from '@app/constants';
+import { fetchProducts2 } from '@app/api';
 import { Preloader, Text } from '@app/components';
 
 import { setFetchingStatus, addProducts, useTrackedState, useDispatch } from './store';
@@ -16,19 +16,19 @@ export const Products = () => {
   const { fetching } = state;
 
   useEffect(() => {
-    const fetchingProducts = fetchProducts();
+    const fetchedProducts = fetchProducts2(API_SHOP);
 
     setFetchingStatus(LOADING, null)(dispatch);
 
-    fetchingProducts.then((data) => {
-      const { featured } = data;
+    fetchedProducts.then((data) => {
+      const { shop } = data;
 
-      if (featured) {
+      if (shop) {
         setFetchingStatus(SUCCEEDED, null)(dispatch);
-        addProducts(featured)(dispatch);
+        addProducts(shop)(dispatch);
       }
 
-      if (!featured) {
+      if (!shop) {
         setFetchingStatus(FAILED, data)(dispatch);
       }
     });

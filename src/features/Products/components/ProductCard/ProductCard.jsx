@@ -9,7 +9,7 @@ import { addToCart, existingInOrderList, useTrackedState, useDispatch } from '@a
 import { Poster } from './components';
 import { ProductCardContainer, ProductCardFooter, ProductCardHeader, ProductCardBody, ProductCardContent } from './styled';
 
-const MAX_LENGTH_NAME = 16;
+const MAX_LENGTH_NAME = 14;
 const MAX_LENGTH_DESC = 25;
 
 const ProductCardComponent = ({ productId }) => {
@@ -17,8 +17,10 @@ const ProductCardComponent = ({ productId }) => {
   const dispatch = useDispatch();
   const { products } = state;
 
-  const product = state.products.list.find((product) => product.id === productId);
-  const { id, name, price, categories, description, image } = product;
+  const product = state.products.list.find((product) => product.mainId === productId);
+  const { mainId, price, categories, displayName, displayType, displayDescription, displayAssets } = product;
+  const { regularPrice } = price;
+  const { url } = displayAssets[0];
 
   useEffect(() => {
     // eslint-disable-next-line no-console
@@ -27,19 +29,19 @@ const ProductCardComponent = ({ productId }) => {
     console.log('Product', { ...product });
   }, []);
 
-  const nameFormatted = description.substring(0, MAX_LENGTH_NAME);
-  const descriptionFormatted = description.substring(0, MAX_LENGTH_DESC);
+  const nameFormatted = displayName.substring(0, MAX_LENGTH_NAME);
+  const displayDescriptionFormatted = displayDescription.substring(0, MAX_LENGTH_DESC);
 
   const handleAddToCart = (productId) => () => {
     const isOrderedProduct = existingInOrderList(productId, products.orderedList)();
 
     if (!isOrderedProduct) {
       addToCart(productId)(dispatch);
-      toast.success(`${name} добавлен в корзину`);
+      toast.success(`${displayName} добавлен в корзину`);
     }
 
     if (isOrderedProduct) {
-      toast.info(`${name} уже в корзине`);
+      toast.info(`${displayName} уже в корзине`);
     }
   };
 
@@ -49,7 +51,7 @@ const ProductCardComponent = ({ productId }) => {
         // eslint-disable-next-line no-console
         console.log('Product card was rendered')
       }
-      <Poster src={image} alt={name} />
+      <Poster src={url} alt={name} />
       <ProductCardContent>
         <ProductCardHeader>
           <Text variant="semiBold" size="xxlarge">
@@ -60,19 +62,19 @@ const ProductCardComponent = ({ productId }) => {
 
         <ProductCardBody>
           <Text>
-            {descriptionFormatted}
-            {descriptionFormatted.length >= MAX_LENGTH_DESC && <>...</>}
+            {displayDescriptionFormatted || displayType}
+            {displayDescriptionFormatted.length >= MAX_LENGTH_DESC && <>...</>}
           </Text>
         </ProductCardBody>
 
         <ProductCardFooter>
           <Text size="xxlarge" variant="bold" color={COLOR_NAME.DANGER}>
-            {price}$
+            $ {regularPrice}
           </Text>
-          <Button onClick={handleAddToCart(id)}>Купить</Button>
+          <Button onClick={handleAddToCart(mainId)}>Купить</Button>
         </ProductCardFooter>
       </ProductCardContent>
-      {existingInOrderList(id, products.orderedList)() && <Check color={COLOR_NAME.SUCCESS} />}
+      {existingInOrderList(mainId, products.orderedList)() && <Check color={COLOR_NAME.SUCCESS} />}
     </ProductCardContainer>
   );
 };

@@ -1,6 +1,9 @@
 export const API_KEY = import.meta.env.VITE_API_KEY;
 
 export const API_URL = 'https://fortniteapi.io/v1/shop?lang=ru';
+export const API_URL2 = 'https://fortniteapi.io/v2';
+export const API_SHOP = `${API_URL2}/shop?lang=ru`;
+// https://fortniteapi.io/v2/items/get?id=CID_242_Athena_Commando_F_Bullseye&lang=en
 
 export const STATUS = {
   IDLE: 'idle',

@@ -9,8 +9,8 @@ export const ProductList = () => {
 
   return (
     <>
-      {products.list.map((product) => (
-        <ProductCard key={product.id} productId={product.id} />
+      {products.list.map(({ mainId }) => (
+        <ProductCard key={mainId} productId={mainId} />
       ))}
     </>
   );
