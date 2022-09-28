@@ -1,1 +1,1 @@
-export { fetchProducts1, fetchProducts2 } from './fetchProducts';
+export { fetchProducts1, fetchProducts2, fetchProductDetail } from './fetchProducts';

@@ -35,7 +35,7 @@ export const decProduct = (productId) => (dispatch) => {
 };
 
 export const existingInOrderList = (productId, orderedList) => () => {
-  return orderedList.find((product) => product.id === productId);
+  return orderedList.find((product) => product.mainId === productId);
 };
 
 export const setFetchingStatus = (fetchingStatus, error) => (dispatch) => {

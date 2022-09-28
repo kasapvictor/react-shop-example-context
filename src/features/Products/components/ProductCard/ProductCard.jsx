@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+// import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 
-import { COLOR_NAME } from '@app/constants';
+import { API_DETAILS, COLOR_NAME } from '@app/constants';
 import { Text, Button, Check } from '@app/components';
 import { addToCart, existingInOrderList, useTrackedState, useDispatch } from '@app/features';
+import { fetchProductDetail } from '@app/api';
 
 import { Poster } from './components';
 import { ProductCardContainer, ProductCardFooter, ProductCardHeader, ProductCardBody, ProductCardContent } from './styled';
@@ -12,7 +13,17 @@ import { ProductCardContainer, ProductCardFooter, ProductCardHeader, ProductCard
 const MAX_LENGTH_NAME = 14;
 const MAX_LENGTH_DESC = 25;
 
-const ProductCardComponent = ({ productId }) => {
+const getCategoryName = (categories) => {
+  const itemByIndex = categories[0];
+
+  if (itemByIndex) {
+    return itemByIndex.split(' ')[0];
+  }
+
+  return '';
+};
+
+export const ProductCard = ({ productId }) => {
   const state = useTrackedState();
   const dispatch = useDispatch();
   const { products } = state;
@@ -21,13 +32,7 @@ const ProductCardComponent = ({ productId }) => {
   const { mainId, price, categories, displayName, displayType, displayDescription, displayAssets } = product;
   const { regularPrice } = price;
   const { url } = displayAssets[0];
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('Product card was rendered useEffect', categories);
-    // eslint-disable-next-line no-console
-    console.log('Product', { ...product });
-  }, []);
+  const category = getCategoryName(categories);
 
   const nameFormatted = displayName.substring(0, MAX_LENGTH_NAME);
   const displayDescriptionFormatted = displayDescription.substring(0, MAX_LENGTH_DESC);
@@ -45,12 +50,15 @@ const ProductCardComponent = ({ productId }) => {
     }
   };
 
+  const handleDetails = () => {
+    fetchProductDetail(`${API_DETAILS}${productId}`).then((response) => {
+      // eslint-disable-next-line no-unused-expressions,no-console
+      console.log('details', response);
+    });
+  };
+
   return (
     <ProductCardContainer>
-      {
-        // eslint-disable-next-line no-console
-        console.log('Product card was rendered')
-      }
       <Poster src={url} alt={name} />
       <ProductCardContent>
         <ProductCardHeader>
@@ -59,6 +67,10 @@ const ProductCardComponent = ({ productId }) => {
             {nameFormatted.length >= MAX_LENGTH_NAME && <>...</>}
           </Text>
         </ProductCardHeader>
+
+        <span>Категория: {category}</span>
+        <button onClick={handleDetails}>details</button>
+        {/* <Link to={`product:${mainId}`}>Page Product</Link> */}
 
         <ProductCardBody>
           <Text>
@@ -79,8 +91,6 @@ const ProductCardComponent = ({ productId }) => {
   );
 };
 
-ProductCardComponent.propTypes = {
+ProductCard.propTypes = {
   productId: PropTypes.string,
 };
-
-export const ProductCard = React.memo(ProductCardComponent);

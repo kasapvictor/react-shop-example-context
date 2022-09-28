@@ -33,3 +33,19 @@ export const fetchProducts2 = async (url) => {
     return error.message;
   }
 };
+
+export const fetchProductDetail = async (url) => {
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: API_KEY,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.warn('Error:', error.message);
+    return error.message;
+  }
+};

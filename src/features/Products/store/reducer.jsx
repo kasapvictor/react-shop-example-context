@@ -58,7 +58,7 @@ export const reducer = produce((draft, action) => {
 
     case REMOVE_PRODUCT_FROM_CART: {
       const { productId } = action.payload;
-      const newOrderList = draft.products.orderedList.filter((product) => product.id !== productId);
+      const newOrderList = draft.products.orderedList.filter((product) => product.mainId !== productId);
       const newCartOrderInfo = draft.products.cartOrderInfo.filter((product) => product.id !== productId);
 
       draft.products.orderedList = newOrderList;
