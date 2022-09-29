@@ -1,4 +1,4 @@
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 
@@ -70,7 +70,7 @@ export const ProductCard = ({ productId }) => {
 
         <span>Категория: {category}</span>
         <button onClick={handleDetails}>details</button>
-        {/* <Link to={`product:${mainId}`}>Page Product</Link> */}
+        <Link to={`/product/${mainId}`}>Page Product</Link>
 
         <ProductCardBody>
           <Text>

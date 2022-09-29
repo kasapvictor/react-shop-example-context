@@ -1,34 +1,20 @@
 import React from 'react';
-import { ToastContainer } from 'react-toastify';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import '@app/theme/styles';
-import { Shop } from '@app/features';
-import { Header, Main, Footer } from '@app/layouts';
-import { Title, Text, Link } from '@app/components';
-
+import { Product, Products } from '@app/features';
+import { MainTemplate } from '@app/templates';
+// <Shop />
 export const App = () => {
   return (
-    <>
-      <Header>
-        <Title type="h1" size="h1" variant="thin" color="white">
-          Products
-        </Title>
-      </Header>
-      <Main>
-        <Shop />
-      </Main>
-      <Footer>
-        <Title type="h4" size="h4" variant="thin" color="white">
-          &copy; {new Date().getFullYear()} by Victor Kasap
-        </Title>
-
-        <Link href="https://github.com/kasapvictor/react-shop-example-context" target="_blank">
-          <Text color="white" type="span">
-            GitHub
-          </Text>
-        </Link>
-      </Footer>
-      <ToastContainer position="bottom-right" />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainTemplate />}>
+          <Route index element={<Products />}></Route>
+          <Route path="*" element={<Products />}></Route>
+          <Route path="product/:productId" element={<Product />}></Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };

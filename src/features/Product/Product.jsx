@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 // import { fetchProductDetail } from '@app/api';
 // import { API_DETAILS } from '@app/constants';
 
 export const Product = () => {
-  // const { productId } = useParams();
+  const { productId } = useParams();
+
+  // eslint-disable-next-line no-console
+  console.log('productId', productId);
 
   useEffect(() => {
     // fetchProductDetail(`${API_DETAILS}${productId}`).then((response) => {

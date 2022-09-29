@@ -16,22 +16,24 @@ export const Products = () => {
   const { fetching } = state;
 
   useEffect(() => {
-    const fetchedProducts = fetchProducts2(API_SHOP);
+    if (fetching.status === IDLE) {
+      const fetchedProducts = fetchProducts2(API_SHOP);
 
-    setFetchingStatus(LOADING, null)(dispatch);
+      setFetchingStatus(LOADING, null)(dispatch);
 
-    fetchedProducts.then((data) => {
-      const { shop } = data;
+      fetchedProducts.then((data) => {
+        const { shop } = data;
 
-      if (shop) {
-        setFetchingStatus(SUCCEEDED, null)(dispatch);
-        addProducts(shop)(dispatch);
-      }
+        if (shop) {
+          setFetchingStatus(SUCCEEDED, null)(dispatch);
+          addProducts(shop)(dispatch);
+        }
 
-      if (!shop) {
-        setFetchingStatus(FAILED, data)(dispatch);
-      }
-    });
+        if (!shop) {
+          setFetchingStatus(FAILED, data)(dispatch);
+        }
+      });
+    }
   }, []);
 
   return (
