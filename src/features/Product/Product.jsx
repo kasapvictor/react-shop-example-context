@@ -1,42 +1,64 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useImmer } from 'use-immer';
 
-// import { fetchProductDetail } from '@app/api';
-// import { API_DETAILS } from '@app/constants';
+import { fetchProductDetail } from '@app/api';
+import { API_DETAILS, STATUS } from '@app/constants';
+
+import { Preloader, Text } from '@components';
+
+import { Content } from './components/Content';
+import { ProductContainer } from './styled';
+
+const { IDLE, LOADING, SUCCEEDED, FAILED } = STATUS;
 
 export const Product = () => {
   const { productId } = useParams();
-
-  // eslint-disable-next-line no-console
-  console.log('productId', productId);
+  const [productDetails, setProductDetails] = useImmer({
+    fetchedStatus: IDLE,
+    fetchedError: null,
+    details: null,
+  });
 
   useEffect(() => {
-    // fetchProductDetail(`${API_DETAILS}${productId}`).then((response) => {
-    //   // eslint-disable-next-line no-unused-expressions
-    //   console.log('details', response);
-    // });
-  }, []);
+    setProductDetails((draft) => {
+      draft.fetchedStatus = LOADING;
+    });
 
-  /*
-    useEffect(() => {
-    const fetchedProducts = fetchProducts2(API_SHOP);
+    fetchProductDetail(`${API_DETAILS}${productId}`).then((response) => {
+      const { result } = response;
 
-    setFetchingStatus(LOADING, null)(dispatch);
-
-    fetchedProducts.then((data) => {
-      const { shop } = data;
-
-      if (shop) {
-        setFetchingStatus(SUCCEEDED, null)(dispatch);
-        addProducts(shop)(dispatch);
+      if (result) {
+        setProductDetails((draft) => {
+          draft.fetchedStatus = SUCCEEDED;
+          draft.details = response.item;
+        });
       }
 
-      if (!shop) {
-        setFetchingStatus(FAILED, data)(dispatch);
+      if (!result) {
+        setProductDetails((draft) => {
+          draft.fetchedStatus = FAILED;
+          draft.fetchedError = response;
+        });
       }
     });
   }, []);
-   */
 
-  return <>Product</>;
+  return (
+    <ProductContainer>
+      {(productDetails.fetchedStatus === IDLE || productDetails.fetchedStatus === LOADING) && <Preloader />}
+
+      {productDetails.fetchedStatus === SUCCEEDED && <Content product={productDetails.details} />}
+
+      {productDetails.fetchedStatus === FAILED && (
+        <>
+          <Text variant="bold" size="xlarge">
+            Something was wrong... =(
+          </Text>
+          <br />
+          {productDetails.fetchedError}
+        </>
+      )}
+    </ProductContainer>
+  );
 };
