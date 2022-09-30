@@ -8,7 +8,7 @@ export const ProductCardContainer = styled.div({
   flexDirection: 'column',
   height: 460,
   border: '1px solid',
-  borderColor: colors[COLOR_NAME.GRAY02],
+  borderColor: colors[COLOR_NAME.ACCENT01],
   borderRadius: '8px',
   overflow: 'hidden',
   position: 'relative',
@@ -32,7 +32,8 @@ export const ProductCardContent = styled.div({
   flexBasis: '40%',
   width: '100%',
   padding: spacing.medium,
-  backgroundColor: colors[COLOR_NAME.GRAY01],
+  color: colors[COLOR_NAME.WHITE],
+  backgroundColor: colors[COLOR_NAME.ACCENT01],
 });
 
 export const ProductCardFooter = styled.div({
@@ -40,4 +41,23 @@ export const ProductCardFooter = styled.div({
   alignItems: 'center',
   justifyContent: 'space-between',
   minHeight: 45,
+});
+
+export const ProductLinkDetails = styled.div({
+  display: 'flex',
+  alignItems: 'center',
+  position: 'absolute',
+  height: 30,
+  top: 230,
+  right: 10,
+  paddingLeft: spacing.xsmall,
+  paddingRight: spacing.xsmall,
+  borderRadius: spacing.xxsmall,
+  backgroundColor: colors[COLOR_NAME.BLACK],
+  color: colors[COLOR_NAME.WHITE],
+  transition: 'background-color .2s ease',
+
+  '&:hover': {
+    backgroundColor: colors[COLOR_NAME.ACCENT01],
+  },
 });

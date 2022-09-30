@@ -2,26 +2,22 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 
-import { API_DETAILS, COLOR_NAME } from '@app/constants';
+import { COLOR_NAME } from '@app/constants';
 import { Text, Button, Check } from '@app/components';
 import { addToCart, existingInOrderList, useTrackedState, useDispatch } from '@app/store';
-import { fetchProductDetail } from '@app/api';
 
 import { Poster } from './components';
-import { ProductCardContainer, ProductCardFooter, ProductCardHeader, ProductCardBody, ProductCardContent } from './styled';
+import {
+  ProductCardContainer,
+  ProductCardFooter,
+  ProductCardHeader,
+  ProductCardBody,
+  ProductCardContent,
+  ProductLinkDetails,
+} from './styled';
 
 const MAX_LENGTH_NAME = 14;
 const MAX_LENGTH_DESC = 25;
-
-const getCategoryName = (categories) => {
-  const itemByIndex = categories[0];
-
-  if (itemByIndex) {
-    return itemByIndex.split(' ')[0];
-  }
-
-  return '';
-};
 
 export const ProductCard = ({ productId }) => {
   const state = useTrackedState();
@@ -29,10 +25,9 @@ export const ProductCard = ({ productId }) => {
   const { products } = state;
 
   const product = state.products.list.find((product) => product.mainId === productId);
-  const { mainId, price, categories, displayName, displayType, displayDescription, displayAssets } = product;
+  const { mainId, price, displayName, displayType, displayDescription, displayAssets } = product;
   const { regularPrice } = price;
   const { url } = displayAssets[0];
-  const category = getCategoryName(categories);
 
   const nameFormatted = displayName.substring(0, MAX_LENGTH_NAME);
   const displayDescriptionFormatted = displayDescription.substring(0, MAX_LENGTH_DESC);
@@ -50,13 +45,6 @@ export const ProductCard = ({ productId }) => {
     }
   };
 
-  const handleDetails = () => {
-    fetchProductDetail(`${API_DETAILS}${productId}`).then((response) => {
-      // eslint-disable-next-line no-unused-expressions,no-console
-      console.log('details', response);
-    });
-  };
-
   return (
     <ProductCardContainer>
       <Poster src={url} alt={name} />
@@ -68,9 +56,11 @@ export const ProductCard = ({ productId }) => {
           </Text>
         </ProductCardHeader>
 
-        <span>Категория: {category}</span>
-        <button onClick={handleDetails}>details</button>
-        <Link to={`/product/${mainId}`}>Page Product</Link>
+        <ProductLinkDetails>
+          <Link to={`/product/${mainId}`} style={{ color: 'white', textDecoration: 'none' }}>
+            Details
+          </Link>
+        </ProductLinkDetails>
 
         <ProductCardBody>
           <Text>
@@ -80,10 +70,12 @@ export const ProductCard = ({ productId }) => {
         </ProductCardBody>
 
         <ProductCardFooter>
-          <Text size="xxlarge" variant="bold" color={COLOR_NAME.DANGER}>
+          <Text size="xxlarge" variant="bold" color={COLOR_NAME.WHITE}>
             $ {regularPrice}
           </Text>
-          <Button onClick={handleAddToCart(mainId)}>Купить</Button>
+          <Button onClick={handleAddToCart(mainId)} variant="danger">
+            Купить
+          </Button>
         </ProductCardFooter>
       </ProductCardContent>
       {existingInOrderList(mainId, products.orderedList)() && <Check color={COLOR_NAME.SUCCESS} />}
