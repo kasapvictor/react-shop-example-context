@@ -34,6 +34,10 @@ export const decProduct = (productId) => (dispatch) => {
   dispatch({ type: DECREMENT_PRODUCT_CART, payload: { productId } });
 };
 
+export const getProductById = (productId, products) => () => {
+  return products.filter((product) => product.mainId === productId);
+};
+
 export const existingInOrderList = (productId, orderedList) => () => {
   return orderedList.find((product) => product.mainId === productId);
 };

@@ -3,10 +3,11 @@ export { Provider, useTrackedState, useDispatch } from './store';
 export {
   setFetchingStatus,
   addToCart,
-  addProducts,
   incProduct,
   decProduct,
+  addProducts,
   setCartModal,
   removeFromCart,
+  getProductById,
   existingInOrderList,
 } from './actions';

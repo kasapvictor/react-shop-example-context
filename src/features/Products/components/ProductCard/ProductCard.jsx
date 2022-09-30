@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { API_DETAILS, COLOR_NAME } from '@app/constants';
 import { Text, Button, Check } from '@app/components';
-import { addToCart, existingInOrderList, useTrackedState, useDispatch } from '@app/features';
+import { addToCart, existingInOrderList, useTrackedState, useDispatch } from '@app/store';
 import { fetchProductDetail } from '@app/api';
 
 import { Poster } from './components';

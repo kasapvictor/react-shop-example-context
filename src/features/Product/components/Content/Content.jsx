@@ -2,10 +2,21 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 
-import { addToCart, existingInOrderList, useDispatch, useTrackedState } from '@app/features';
 import { COLOR_NAME } from '@app/constants';
+import { addToCart, existingInOrderList, useDispatch, useTrackedState } from '@app/store';
 
-import { Button, Check } from '@components';
+import { Button, Check, Text, Title } from '@components';
+
+import {
+  ProductDetails,
+  ProductDetailsBody,
+  ProductDetailsHeader,
+  ProductImage,
+  ProductMeta,
+  ProductPrice,
+  ProductTag,
+  ProductTagRare,
+} from './styled';
 
 export const Content = ({ product }) => {
   const state = useTrackedState();
@@ -16,8 +27,6 @@ export const Content = ({ product }) => {
 
   const { id, name, type, description, images, rarity, price } = product;
   const { background } = images;
-  // eslint-disable-next-line no-console
-  console.log('product', product);
 
   useEffect(() => {
     const isOrderedProduct = existingInOrderList(id, products.orderedList)();
@@ -37,15 +46,32 @@ export const Content = ({ product }) => {
 
   return (
     <>
-      <h1>Название: {name}</h1>
-      <p>Тип: {type.name}</p>
-      <p>Раритет: {rarity.name.toLowerCase()}</p>
-      <p>Описание: {description}</p>
-      <p>Изображение: </p>
-      <p>Цена: $ {price}</p>
-      {inCart && <Check color={COLOR_NAME.SUCCESS} />}
-      <Button onClick={handleAddToCart(id)}>Купить</Button>
-      <img src={background} alt={name} style={{ width: '200px', height: '200px' }} />
+      <ProductDetailsHeader>
+        <Title type="h1" variant="semiBold">
+          {name}
+        </Title>
+      </ProductDetailsHeader>
+
+      <ProductDetailsBody>
+        <ProductImage src={background} alt={name} />
+        <ProductDetails>
+          <ProductMeta>
+            <ProductTag>{type.name.toLowerCase()}</ProductTag>
+            <ProductTagRare>{rarity.name.toLowerCase()}</ProductTagRare>
+          </ProductMeta>
+
+          <Text variant="normal" type="div" size="xxlarge">
+            {description}
+          </Text>
+          <ProductPrice>
+            <Text variant="bold" size="xxlarge" color="warning">
+              $ {price}
+            </Text>
+            <Button onClick={handleAddToCart(id)}>Купить</Button>
+          </ProductPrice>
+          {inCart && <Check color={COLOR_NAME.SUCCESS} />}
+        </ProductDetails>
+      </ProductDetailsBody>
     </>
   );
 };

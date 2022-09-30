@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useImmer } from 'use-immer';
 
-import { fetchProductDetail, fetchProducts2 } from '@app/api';
-import { API_DETAILS, API_SHOP, STATUS } from '@app/constants';
-import { addProducts, setFetchingStatus, useDispatch, useTrackedState } from '@app/features';
+import { fetchProductDetail } from '@app/api';
+import { API_DETAILS, STATUS } from '@app/constants';
 
 import { Preloader, Text } from '@components';
 
@@ -14,11 +13,8 @@ import { ProductContainer } from './styled';
 const { IDLE, LOADING, SUCCEEDED, FAILED } = STATUS;
 
 export const Product = () => {
-  const state = useTrackedState();
-  const dispatch = useDispatch();
-  const { fetching } = state;
-
   const { productId } = useParams();
+
   const [productDetails, setProductDetails] = useImmer({
     fetchedStatus: IDLE,
     fetchedError: null,
@@ -26,27 +22,6 @@ export const Product = () => {
   });
 
   useEffect(() => {
-    /* ДУБЛЬ Products */
-    if (fetching.status === IDLE) {
-      const fetchedProducts = fetchProducts2(API_SHOP);
-
-      setFetchingStatus(LOADING, null)(dispatch);
-
-      fetchedProducts.then((data) => {
-        const { shop } = data;
-
-        if (shop) {
-          setFetchingStatus(SUCCEEDED, null)(dispatch);
-          addProducts(shop)(dispatch);
-        }
-
-        if (!shop) {
-          setFetchingStatus(FAILED, data)(dispatch);
-        }
-      });
-    }
-    /* ДУБЛЬ Products */
-
     setProductDetails((draft) => {
       draft.fetchedStatus = LOADING;
     });

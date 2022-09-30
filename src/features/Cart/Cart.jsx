@@ -1,5 +1,5 @@
 import { Cart as CartComponent } from '@app/components';
-import { setCartModal, useDispatch, useTrackedState } from '@app/features';
+import { setCartModal, useDispatch, useTrackedState } from '@app/store';
 
 export const Cart = () => {
   const state = useTrackedState();

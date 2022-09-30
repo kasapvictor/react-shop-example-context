@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Text, Modal } from '@app/components';
-import { setCartModal, useTrackedState, useDispatch } from '@app/features';
+import { setCartModal, useTrackedState, useDispatch } from '@app/store';
 
 import { CartModalBody, CartModalContainer, CartModalFooter, CartModalHeader } from './styled';
 import { CartItem } from './components';

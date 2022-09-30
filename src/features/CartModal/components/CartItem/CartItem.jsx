@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { fontSizes } from '@app/theme';
 import { Button, Text } from '@app/components';
-import { incProduct, decProduct, removeFromCart, useTrackedState, useDispatch } from '@app/features';
+import { incProduct, decProduct, removeFromCart, useTrackedState, useDispatch } from '@app/store';
 
 import { CartItemName, CartItemRemove, CartItemStyled, CartItemCount, CartItemCost } from './styled';
 
